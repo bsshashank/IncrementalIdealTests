@@ -13,15 +13,32 @@ public class FileMustBeClosedTest
 	public static void main( String[] args )
     {
         FileMustBeClosedTest test = new FileMustBeClosedTest();
-        test.simple0();
+//        test.noSeedTest();
+//        test.newSeedTest();
+//        test.summaryTest();
+//        test.simple0();
         test.simple1();
-        test.branching();
-        test.aliasing();
-        test.summaryTest();
-        test.interprocedural();
-        test.noStrongUpdate();
-        test.noStrongUpdatePossible();
+//        test.branching();
+//        test.aliasing();
+//        test.summaryTest();
+//        test.interprocedural();
+//        test.noStrongUpdate();
+//        test.noStrongUpdatePossible();
     }
+	
+	public void newSeedTest() {
+		File file = new File();
+		File temp = file;
+		file.open();
+		temp.close();
+	}
+	
+	public void noSeedTest() {
+		File file = new File();
+		File temp = new File();
+		file.open();
+		temp.open();
+	}
 	
 	/**
 	 * This method can be used in test cases to create branching. It is not
