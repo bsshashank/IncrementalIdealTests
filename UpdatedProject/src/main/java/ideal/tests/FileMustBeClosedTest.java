@@ -15,15 +15,15 @@ public class FileMustBeClosedTest
         FileMustBeClosedTest test = new FileMustBeClosedTest();
 //        test.noSeedTest();
 //        test.newSeedTest();
-//        test.summaryTest();
 //        test.simple0();
-        test.simple1();
+//        test.simple1();
 //        test.branching();
 //        test.aliasing();
 //        test.summaryTest();
 //        test.interprocedural();
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
+        test.test();
     }
 	
 	public void newSeedTest() {
@@ -93,8 +93,8 @@ public class FileMustBeClosedTest
 	public void interprocedural() {
 		File file = new File();
 		file.open();
-		file.close();
 		flows(file, true);
+		file.close();
 	}
 
 	private static void flows(File file, boolean b) {
@@ -177,7 +177,7 @@ public class FileMustBeClosedTest
 		File file = new File();
 		file.open();
 		bar(a, b, file);
-		b.field.close();
+//		b.field.close();
 	}
 
 	public void noStrongUpdate() {
@@ -189,8 +189,8 @@ public class FileMustBeClosedTest
 		} else {
 			a.field = file;
 		}
-		a.field.open();
-		b.field.close();
+//		a.field.open();
+//		b.field.close();
 		// Debatable
 	}
 

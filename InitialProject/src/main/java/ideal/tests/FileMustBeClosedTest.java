@@ -15,15 +15,15 @@ public class FileMustBeClosedTest
         FileMustBeClosedTest test = new FileMustBeClosedTest();
 //        test.noSeedTest();
 //        test.newSeedTest();
-//        test.summaryTest();
 //        test.simple0();
-        test.simple1();
+//        test.simple1();
 //        test.branching();
 //        test.aliasing();
 //        test.summaryTest();
 //        test.interprocedural();
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
+        test.test();
     }
 	
 	public void newSeedTest() {
