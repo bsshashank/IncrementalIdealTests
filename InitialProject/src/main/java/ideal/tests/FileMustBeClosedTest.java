@@ -24,21 +24,29 @@ public class FileMustBeClosedTest
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
 //        test.test();
-//        test.unbalancedReturn1();
 //        test.wrappedClose();
 //        test.multipleStates();
 //        test.doubleBranching();
 //        test.whileLoopBranching();
+//        test.unbalancedReturn1();
+//        test.unbalancedReturn2();
+        
+        test.indirectFlow();
         
 //        test.flowViaField();
 //        test.indirectFlow();
 //        test.parameterAlias();
 //        test.parameterAlias2();
-//        test.unbalancedReturn2();
 //        test.lateWriteToField();
 //        test.fieldStoreAndLoad1();
 //        test.fieldStoreAndLoad2();
     }
+	
+	public void addNewSeed() {
+		File file = new File();
+		file.open();
+		file.close();
+	}
 	
 	public void newSeedTest() {
 		File file = new File();

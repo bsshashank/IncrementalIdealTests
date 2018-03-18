@@ -24,21 +24,32 @@ public class FileMustBeClosedTest
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
 //        test.test();
-//        test.unbalancedReturn1();
 //        test.wrappedClose();
 //        test.multipleStates();
 //        test.doubleBranching();
 //        test.whileLoopBranching();
+//        test.unbalancedReturn1();
+//        test.unbalancedReturn2();
+        
+        test.indirectFlow();
         
 //        test.flowViaField();
 //        test.indirectFlow();
 //        test.parameterAlias();
 //        test.parameterAlias2();
-//        test.unbalancedReturn2();
 //        test.lateWriteToField();
 //        test.fieldStoreAndLoad1();
 //        test.fieldStoreAndLoad2();
     }
+	
+	public void addNewSeed() {
+		File file = new File();
+		File file2 = new File();
+		file2.open();
+		file2.close();
+		file.open();
+		file.close();
+	}
 	
 	public void newSeedTest() {
 		File file = new File();
@@ -119,8 +130,8 @@ public class FileMustBeClosedTest
 	public void flowViaField() {
 		ObjectWithField container = new ObjectWithField();
 		flows(container);
-//		if (staticallyUnknown())
-			container.field.close();
+		if (staticallyUnknown())
+			System.out.println(container.field);
 	}
 
 	private static void flows(ObjectWithField container) {
@@ -159,7 +170,7 @@ public class FileMustBeClosedTest
 
 	public void parameterAlias() {
 		File file = new File();
-		File alias = new File();
+		File alias = file;
 		call(alias, file);
 	}
 
@@ -207,6 +218,7 @@ public class FileMustBeClosedTest
 	public void unbalancedReturn1() {
 		File second = createOpenedFile();
 		System.out.println(second);
+		second.close();
 	}
 
 	public void unbalancedReturn2() {
@@ -214,6 +226,7 @@ public class FileMustBeClosedTest
 		clse(first);
 		File second = createOpenedFile();
 		second.hashCode();
+		second.close();
 	}
 
 	private static void clse(File first) {
@@ -223,7 +236,6 @@ public class FileMustBeClosedTest
 	public static File createOpenedFile() {
 		File f = new File();
 		f.open();
-		f.close();
 		return f;
 	}
 
