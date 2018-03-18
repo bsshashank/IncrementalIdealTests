@@ -23,7 +23,21 @@ public class FileMustBeClosedTest
 //        test.interprocedural();
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
-        test.test();
+//        test.test();
+//        test.unbalancedReturn1();
+//        test.wrappedClose();
+//        test.multipleStates();
+//        test.doubleBranching();
+//        test.whileLoopBranching();
+        
+//        test.flowViaField();
+//        test.indirectFlow();
+//        test.parameterAlias();
+//        test.parameterAlias2();
+//        test.unbalancedReturn2();
+//        test.lateWriteToField();
+//        test.fieldStoreAndLoad1();
+//        test.fieldStoreAndLoad2();
     }
 	
 	public void newSeedTest() {
@@ -105,7 +119,7 @@ public class FileMustBeClosedTest
 	public void flowViaField() {
 		ObjectWithField container = new ObjectWithField();
 		flows(container);
-		if (staticallyUnknown())
+//		if (staticallyUnknown())
 			container.field.close();
 	}
 
@@ -151,7 +165,7 @@ public class FileMustBeClosedTest
 
 	private void call(File file1, File file2) {
 		file1.open();
-		file2.close();
+//		file2.close();
 	}
 
 	public void parameterAlias2() {
@@ -163,14 +177,10 @@ public class FileMustBeClosedTest
 
 	private void call2(File file1, File file2) {
 		file1.open();
-		if (staticallyUnknown())
+//		if (staticallyUnknown())
 			file2.close();
 	}
-
-
-
-
-	//	
+	
 	public void test() {
 		ObjectWithField a = new ObjectWithField();
 		ObjectWithField b = a;
@@ -213,6 +223,7 @@ public class FileMustBeClosedTest
 	public static File createOpenedFile() {
 		File f = new File();
 		f.open();
+		f.close();
 		return f;
 	}
 
@@ -226,7 +237,8 @@ public class FileMustBeClosedTest
 		File file = new File();
 		bar(a, file);
 		File c = b.field;
-		c.close();
+		System.out.println(c);
+//		c.close();
 	}
 
 	private void bar(ObjectWithField a, File file) {
@@ -240,6 +252,7 @@ public class FileMustBeClosedTest
 		container.field = file;
 		File a = container.field;
 		a.open();
+		a.close();
 	}
 
 	public void fieldStoreAndLoad2() {
@@ -254,13 +267,14 @@ public class FileMustBeClosedTest
 	private void flowsToField(ObjectWithField container) {
 		File field = container.field;
 		field.open();
+		field.close();
 	}
 
 	public void wrappedClose() {
 		File file = new File();
 		File alias = file;
 		alias.open();
-		file.wrappedClose();
+//		file.wrappedClose();
 	}
 
 	public void multipleStates() {
@@ -268,7 +282,7 @@ public class FileMustBeClosedTest
 		file.open();
 		int x = 1;
 		System.out.println(x);
-		file.close();
+//		file.close();
 		x = 1;
 		System.out.println(x);
 	}
@@ -284,11 +298,12 @@ public class FileMustBeClosedTest
 		else {
 			System.out.println(2);
 		}
+		file.close();
 	}
 
 	public void whileLoopBranching() {
 		File file = new File();
-		while(staticallyUnknown()){
+		/*while(staticallyUnknown()){
 			if (staticallyUnknown()) {
 				file.open();
 				if (staticallyUnknown())
@@ -298,6 +313,7 @@ public class FileMustBeClosedTest
 			else {
 				System.out.println(2);
 			}
-		}
+		}*/
+		file.open();
 	}
 }

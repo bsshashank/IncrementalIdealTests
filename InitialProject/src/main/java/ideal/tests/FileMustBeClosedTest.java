@@ -23,7 +23,21 @@ public class FileMustBeClosedTest
 //        test.interprocedural();
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
-        test.test();
+//        test.test();
+//        test.unbalancedReturn1();
+//        test.wrappedClose();
+//        test.multipleStates();
+//        test.doubleBranching();
+//        test.whileLoopBranching();
+        
+//        test.flowViaField();
+//        test.indirectFlow();
+//        test.parameterAlias();
+//        test.parameterAlias2();
+//        test.unbalancedReturn2();
+//        test.lateWriteToField();
+//        test.fieldStoreAndLoad1();
+//        test.fieldStoreAndLoad2();
     }
 	
 	public void newSeedTest() {
@@ -164,11 +178,7 @@ public class FileMustBeClosedTest
 		if (staticallyUnknown())
 			file2.close();
 	}
-
 	
-	
-	
-//	
 	public void test() {
 		ObjectWithField a = new ObjectWithField();
 		ObjectWithField b = a;
