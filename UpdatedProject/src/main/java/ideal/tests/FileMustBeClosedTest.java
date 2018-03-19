@@ -23,24 +23,38 @@ public class FileMustBeClosedTest
 //        test.interprocedural();
 //        test.noStrongUpdate();
 //        test.noStrongUpdatePossible();
-//        test.test();
 //        test.wrappedClose();
 //        test.multipleStates();
 //        test.doubleBranching();
 //        test.whileLoopBranching();
 //        test.unbalancedReturn1();
 //        test.unbalancedReturn2();
-        
-        test.indirectFlow();
-        
-//        test.flowViaField();
-//        test.indirectFlow();
-//        test.parameterAlias();
 //        test.parameterAlias2();
-//        test.lateWriteToField();
 //        test.fieldStoreAndLoad1();
-//        test.fieldStoreAndLoad2();
+//        test.parameterAlias();
+//        test.indirectFlow();
+//        test.lateFlow();
+        test.fieldStoreAndLoad2();
+        
+//        test.test();
+//        test.simpleTest();
+//        test.lateWriteToField();
     }
+	
+	private void lateFlow() {
+		File a = null;
+		a = new File();
+		a.open();
+		File b = a;
+		b.close();
+	}
+
+	private void simpleTest() {
+		ObjectWithField a = new ObjectWithField();
+		a.field = new File();
+		a.field.open();
+		a.field.close();
+	}
 	
 	public void addNewSeed() {
 		File file = new File();
@@ -130,8 +144,8 @@ public class FileMustBeClosedTest
 	public void flowViaField() {
 		ObjectWithField container = new ObjectWithField();
 		flows(container);
-		if (staticallyUnknown())
-			System.out.println(container.field);
+		/*if (staticallyUnknown())*/
+		container.field.close();
 	}
 
 	private static void flows(ObjectWithField container) {
@@ -171,12 +185,13 @@ public class FileMustBeClosedTest
 	public void parameterAlias() {
 		File file = new File();
 		File alias = file;
-		call(alias, file);
+//		call(alias, file);
+		System.out.println(alias);
 	}
 
 	private void call(File file1, File file2) {
 		file1.open();
-//		file2.close();
+		file2.close();
 	}
 
 	public void parameterAlias2() {
