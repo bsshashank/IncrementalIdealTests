@@ -11,36 +11,47 @@ public class FileMustBeClosedTest
 {
 
 	public static void main( String[] args )
-    {
-        FileMustBeClosedTest test = new FileMustBeClosedTest();
-//        test.noSeedTest();
-//        test.newSeedTest();
-//        test.simple0();
-//        test.simple1();
-//        test.branching();
-//        test.aliasing();
-//        test.summaryTest();
-//        test.interprocedural();
-//        test.noStrongUpdate();
-//        test.noStrongUpdatePossible();
-//        test.wrappedClose();
-//        test.multipleStates();
-//        test.doubleBranching();
-//        test.whileLoopBranching();
-//        test.unbalancedReturn1();
-//        test.unbalancedReturn2();
-//        test.parameterAlias2();
-//        test.fieldStoreAndLoad1();
-//        test.parameterAlias();
-//        test.indirectFlow();
-//        test.lateFlow();
-        test.fieldStoreAndLoad2();
-        
-//        test.test();
-//        test.simpleTest();
-//        test.lateWriteToField();
-    }
-	
+	{
+		FileMustBeClosedTest test = new FileMustBeClosedTest();
+//		test.retainedAliasedSeed();
+//		test.newSeedTest();
+//		test.simple0();
+//		test.simple1();
+//		test.branching();
+//		test.aliasing();
+//		test.summaryTest();
+//		test.interprocedural();
+//		test.noStrongUpdate();
+//		test.noStrongUpdatePossible();
+//		test.wrappedClose();
+//		test.multipleStates();
+//		test.doubleBranching();
+//		test.whileLoopBranching();
+//		test.unbalancedReturn1();
+//		test.unbalancedReturn2();
+//		test.parameterAlias();
+//		test.parameterAlias2();
+//		test.fieldStoreAndLoad1();
+//		test.lateFlow();
+//		test.noRetainedSeed();
+//      test.flowViaField();
+//		test.lateWriteToField();
+//		test.test();
+//      test.indirectFlow();
+		test.fieldStoreAndLoad2();
+      
+//      test.simpleTest();
+	}
+
+	public void noRetainedSeed() {
+		File a = new File();
+		File b = new File();
+		a.open();
+		b.open();
+		a.close();
+		b.close();
+	}
+
 	private void lateFlow() {
 		File a = null;
 		a = new File();
@@ -55,7 +66,7 @@ public class FileMustBeClosedTest
 		a.field.open();
 		a.field.close();
 	}
-	
+
 	public void addNewSeed() {
 		File file = new File();
 		File file2 = new File();
@@ -64,15 +75,15 @@ public class FileMustBeClosedTest
 		file.open();
 		file.close();
 	}
-	
+
 	public void newSeedTest() {
 		File file = new File();
 		File temp = new File();
 		file.open();
 		temp.open();
 	}
-	
-	public void noSeedTest() {
+
+	public void retainedAliasedSeed() {
 		File file = new File();
 		File temp = file;
 		file.open();
@@ -104,7 +115,7 @@ public class FileMustBeClosedTest
 
 	public void branching() {
 		File file = new File();
-		if (staticallyUnknown())
+//		if (staticallyUnknown())
 			file.open();
 	}
 
@@ -143,15 +154,16 @@ public class FileMustBeClosedTest
 
 	public void flowViaField() {
 		ObjectWithField container = new ObjectWithField();
-		flows(container);
-		/*if (staticallyUnknown())*/
+		File test = new File();
+		flows(container, test);
+//		container.field.open();
+//		test.close();
+		test.open();
 		container.field.close();
 	}
 
-	private static void flows(ObjectWithField container) {
-		container.field = new File();
-		File field = container.field;
-		field.open();
+	private static void flows(ObjectWithField container, File file) {
+		file = container.field;
 	}
 
 	public void indirectFlow() {
@@ -185,7 +197,7 @@ public class FileMustBeClosedTest
 	public void parameterAlias() {
 		File file = new File();
 		File alias = file;
-//		call(alias, file);
+		//		call(alias, file);
 		System.out.println(alias);
 	}
 
@@ -203,17 +215,17 @@ public class FileMustBeClosedTest
 
 	private void call2(File file1, File file2) {
 		file1.open();
-//		if (staticallyUnknown())
-			file2.close();
+		//		if (staticallyUnknown())
+		file2.close();
 	}
-	
+
 	public void test() {
 		ObjectWithField a = new ObjectWithField();
 		ObjectWithField b = a;
 		File file = new File();
 		file.open();
 		bar(a, b, file);
-//		b.field.close();
+		//		b.field.close();
 	}
 
 	public void noStrongUpdate() {
@@ -225,8 +237,8 @@ public class FileMustBeClosedTest
 		} else {
 			a.field = file;
 		}
-//		a.field.open();
-//		b.field.close();
+		//		a.field.open();
+		//		b.field.close();
 		// Debatable
 	}
 
@@ -265,7 +277,7 @@ public class FileMustBeClosedTest
 		bar(a, file);
 		File c = b.field;
 		System.out.println(c);
-//		c.close();
+		c.close();
 	}
 
 	private void bar(ObjectWithField a, File file) {
@@ -301,7 +313,7 @@ public class FileMustBeClosedTest
 		File file = new File();
 		File alias = file;
 		alias.open();
-//		file.wrappedClose();
+		//		file.wrappedClose();
 	}
 
 	public void multipleStates() {
@@ -309,7 +321,7 @@ public class FileMustBeClosedTest
 		file.open();
 		int x = 1;
 		System.out.println(x);
-//		file.close();
+		//		file.close();
 		x = 1;
 		System.out.println(x);
 	}

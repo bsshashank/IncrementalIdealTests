@@ -9,52 +9,60 @@ import typestate.test.helper.ObjectWithField;
  */
 public class FileMustBeClosedTest
 {
-	
+
 	public static void main( String[] args )
-    {
-        FileMustBeClosedTest test = new FileMustBeClosedTest();
-//        test.noSeedTest();
-//        test.newSeedTest();
-//        test.simple0();
-//        test.simple1();
-//        test.branching();
-//        test.aliasing();
-//        test.summaryTest();
-//        test.interprocedural();
-//        test.noStrongUpdate();
-//        test.noStrongUpdatePossible();
-//        test.wrappedClose();
-//        test.multipleStates();
-//        test.doubleBranching();
-//        test.whileLoopBranching();
-//        test.unbalancedReturn1();
-//        test.unbalancedReturn2();
-//        test.parameterAlias2();
-//        test.fieldStoreAndLoad1();
-//        test.parameterAlias();
-//        test.indirectFlow();
-//        test.lateFlow();
-        test.fieldStoreAndLoad2();
-        
-//        test.test();
-//        test.simpleTest();
-//        test.lateWriteToField();
-    }
-	
+	{
+		FileMustBeClosedTest test = new FileMustBeClosedTest();
+//		test.retainedAliasedSeed();
+//		test.newSeedTest();
+//		test.simple0();
+//		test.simple1();
+//		test.branching();
+//		test.aliasing();
+//		test.summaryTest();
+//		test.interprocedural();
+//		test.noStrongUpdate();
+//		test.noStrongUpdatePossible();
+//		test.wrappedClose();
+//		test.multipleStates();
+//		test.doubleBranching();
+//		test.whileLoopBranching();
+//		test.unbalancedReturn1();
+//		test.unbalancedReturn2();
+//		test.parameterAlias();
+//		test.parameterAlias2();
+//		test.fieldStoreAndLoad1();
+//		test.lateFlow();
+//		test.noRetainedSeed();
+//		test.flowViaField();
+//		test.lateWriteToField();
+//		test.test();
+//		test.indirectFlow();
+		test.fieldStoreAndLoad2();
+		
+//		test.simpleTest();
+	}
+
+	public void noRetainedSeed() {
+		File file = new File();
+		file.open();
+		file.close();
+	}
+
 	private void lateFlow() {
 		File a = null;
 		a = new File();
 		a.open();
 		File b = a;
 		System.out.println(b);
-//		b.close();
+		//		b.close();
 	}
-	
+
 	private void simpleTest() {
 		ObjectWithField a = new ObjectWithField();
 		a.field = new File();
 		a.field.open();
-//		a.field.close();
+		//		a.field.close();
 	}
 
 	public void addNewSeed() {
@@ -62,21 +70,21 @@ public class FileMustBeClosedTest
 		file.open();
 		file.close();
 	}
-	
+
 	public void newSeedTest() {
 		File file = new File();
 		File temp = file;
 		file.open();
 		temp.close();
 	}
-	
-	public void noSeedTest() {
+
+	public void retainedAliasedSeed() {
 		File file = new File();
 		File temp = new File();
 		file.open();
 		temp.open();
 	}
-	
+
 	/**
 	 * This method can be used in test cases to create branching. It is not
 	 * optimized away.
@@ -140,15 +148,13 @@ public class FileMustBeClosedTest
 
 	public void flowViaField() {
 		ObjectWithField container = new ObjectWithField();
-		flows(container);
-//		if (staticallyUnknown())
-//		container.field.close();
+		File test = new File();
+		flows(container, test);
+		test.open();
 	}
 
-	private static void flows(ObjectWithField container) {
-		container.field = new File();
-		File field = container.field;
-		field.open();
+	private static void flows(ObjectWithField container, File file) {
+		file = container.field;
 	}
 
 	public void indirectFlow() {
@@ -176,7 +182,7 @@ public class FileMustBeClosedTest
 		} else {
 			b = e;
 		}
-//		b.close();
+		//		b.close();
 	}
 
 	public void parameterAlias() {
@@ -201,7 +207,7 @@ public class FileMustBeClosedTest
 		if (staticallyUnknown())
 			file2.close();
 	}
-	
+
 	public void test() {
 		ObjectWithField a = new ObjectWithField();
 		ObjectWithField b = a;
@@ -257,7 +263,8 @@ public class FileMustBeClosedTest
 		File file = new File();
 		bar(a, file);
 		File c = b.field;
-		c.close();
+//		c.close();
+		System.out.println(c);
 	}
 
 	private void bar(ObjectWithField a, File file) {
@@ -316,7 +323,7 @@ public class FileMustBeClosedTest
 			System.out.println(2);
 		}
 	}
-	
+
 	public void whileLoopBranching() {
 		File file = new File();
 		while(staticallyUnknown()){
